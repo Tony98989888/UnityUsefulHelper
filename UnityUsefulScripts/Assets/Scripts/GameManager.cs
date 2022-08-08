@@ -16,6 +16,16 @@ public class GameManager : Singleton<GameManager>
     private GameState m_gameState = GameState.WAIT;
     public static event Action<GameState> OnGameStateChanged;
 
+    private void OnEnable()
+    {
+        GameStartComponent.OnGameStart += StartGame;
+    }
+
+    private void OnDisable()
+    {
+        GameStartComponent.OnGameStart -= StartGame;
+    }
+
     private void UpdateGameState(GameState state)
     {
         if (state == m_gameState)
@@ -36,5 +46,10 @@ public class GameManager : Singleton<GameManager>
         }
 
         OnGameStateChanged?.Invoke(state);
+    }
+
+    private void StartGame()
+    {
+        Debug.Log("Start Game");
     }
 }
